@@ -57,6 +57,6 @@ export function createDevServer({ port = 4187, isolated = true, root = ROOT, sou
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const source = !process.argv.includes("--protected");
-  const server = await createDevServer({ port: Number(process.env.PORT || 4187), isolated: !process.argv.includes("--plain"), source });
+  const server = await createDevServer({ port: Number(process.env.PORT || (source ? 4186 : 4187)), isolated: !process.argv.includes("--plain"), source });
   console.log(`五目 ${source ? "源码开发" : "发布构建"}: http://127.0.0.1:${server.address().port}/${source ? "__source__/" : ""}`);
 }

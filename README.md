@@ -50,7 +50,7 @@ npm ci
 npm run dev
 ```
 
-Open [localhost:4187/__source__/](http://127.0.0.1:4187/__source__/). Source mode loads editable modules directly, disables offline service-worker registration, and uses a separate storage scope. Refresh after editing; no obfuscation build is needed. The server supplies cross-origin isolation for threaded WASM; use `npm run dev -- --plain` to omit those headers. Run `npm run dev:protected` to test the actual protected bundles and offline behavior at the root URL.
+Open [localhost:4186/__source__/](http://127.0.0.1:4186/__source__/). Source mode loads editable modules directly and disables offline service-worker registration. Refresh after editing; no obfuscation build is needed. The server supplies cross-origin isolation for threaded WASM; use `npm run dev -- --plain` to omit those headers. Run `npm run dev:protected` to test the actual protected bundles and offline behavior at [localhost:4187](http://127.0.0.1:4187/). The default ports give the two modes separate browser storage; overriding both to the same port can share some preferences.
 
 | Area | Start here |
 | --- | --- |
