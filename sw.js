@@ -39,8 +39,8 @@ const ASSET_INTEGRITY = {
   "app-update.protected.js?v=38": "sha384-oQ5scIBOdp10NzrTNdMo0A6ihNd4B4yD9q4/42G4/MzEOOnETtuQfPIidQFM+swq",
   "update-page.protected.js": "sha384-I0WY07nn3sB3qobJ0zy/4IvxOsgbxqBb6P8KP7nQEUu2yBGnmOEUsnLpzYcLoSql",
   "remote-engine-ui.protected.js?v=46": "sha384-RKwfvLa2l7iqQm8F9kOFuFJOCvDQqIhz+tk2rWSNsoZ9TfCT6/BqiWAb7FN2KUsb",
-  "opening-app.protected.js": "sha384-ze+RWT2NmKIhlPntuTY2/hAH6r8yH6toirGH8dNDt0WjCM5OqIR+r9EO3HLS7Aad",
-  "engine.worker.protected.js?v=46": "sha384-iNPpqm/cAuiKgOosOfZyeU9D/nX4MmNiw77boJleyqDvqTxXa0+x+RDZ8M5kCYJ7"
+  "opening-app.protected.js": "sha384-2xds++XL586xdKTd2NNm1+pHmNXdsswqeslKonQ7DNBwCvnRiG3mjKjXgJ9Q718p",
+  "engine.worker.protected.js?v=46": "sha384-UZEKhv1TYXy0TflPMwn8uFDmTiEGmw8b0PZRbNi6WV9DxCHx/967UQw/oEqKkVYj"
 };
 // END GENERATED ASSET INTEGRITY
 const ENGINE = "engine/rapfi-250615/";

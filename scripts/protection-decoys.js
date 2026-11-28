@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 
-// Harmless, unreachable analysis noise. These values are not read by the app,
-// sent to a server, or used for authorization. They are not secrets.
+// Harmless, local analysis noise. Results are discarded and never used by the
+// app, sent to a server, or used for authorization. They are not secrets.
 export function protectionDecoys(name, source) {
   const hash = createHash("sha256").update("gomoku-decoys-v1\0").update(name).update("\0").update(source).digest("hex");
   const families = ["gomoku-opening", "gomoku-remote", "gomoku-session", "gomoku-state"];
@@ -17,5 +17,5 @@ export function protectionDecoys(name, source) {
     functions.push(`function f${group}(n){const v=${JSON.stringify(strings)};return v[((n^${group + 11})>>>0)%v.length]}`);
   }
   const calls = functions.map((_, i) => `f${i}(${i + 17});`).join("");
-  return `\n;(function(){${functions.join("")}if(typeof globalThis==="undefined"){${calls}}})();\n`;
+  return `\n;(function(){${functions.join("")}${calls}})();\n`;
 }
