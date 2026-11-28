@@ -33,4 +33,4 @@ async function load(){request?.abort();const controller=new AbortController();re
  finally{clearTimeout(timeout);if(request===controller)$('refreshReport').disabled=false;}
 }
 $('refreshReport').onclick=load;$('retryReport').onclick=load;document.addEventListener('visibilitychange',()=>{if(!document.hidden)load();});window.addEventListener('online',load);timer=setInterval(()=>{if(!document.hidden)load();},60000);load();
-if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(()=>{});
+if(!globalThis.__GOMOKU_SOURCE_DEV__&&'serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(()=>{});

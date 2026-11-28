@@ -1,8 +1,8 @@
 const BASE = new URL("./", self.location.href);
 const PREFIX = `gomoku-rapfi:${BASE.pathname}:`;
-const RELEASE = "2026.11.28.4";
+const RELEASE = "2026.11.28.5";
 const SHELL_PREFIX = `gomoku-shell:${BASE.pathname}:`;
-const VERSION = SHELL_PREFIX + "261128-v102";
+const VERSION = SHELL_PREFIX + "261128-v103";
 const ENGINE_CACHE = PREFIX + "engine-250615";
 const OFFLINE_MARKER = new URL("__engine_offline_ready__", BASE).href;
 const url = path => new URL(path, BASE).href;
@@ -20,7 +20,7 @@ const CORE = [
   // Published JavaScript bundles. The worker URL is loaded by the app bundle.
   "about.protected.js?v=4", "report.protected.js?v=2", "wordmark.protected.js",
   "app-update.protected.js?v=38", "update-page.protected.js", "remote-engine-ui.protected.js?v=46",
-  "opening-app.protected.js", "engine.worker.protected.js?v=45",
+  "opening-app.protected.js", "engine.worker.protected.js?v=46",
 
   // Visual assets and offline license notices.
   "assets/board-wood.svg", "assets/paper-fiber.svg",
@@ -33,14 +33,14 @@ const CORE = [
 ];
 // BEGIN GENERATED ASSET INTEGRITY
 const ASSET_INTEGRITY = {
-  "about.protected.js?v=4": "sha384-YpbiWjkxbD++6pmyMxVWr4rcaFb5adn+afCpCGQsZCjUcDqhFf82GVsPWubB+euW",
-  "report.protected.js?v=2": "sha384-S5pjJQcy9ZpF4joCIk7Xy6zmvfB8HFpK3NEAMacksKm97AcxqIfBBnqIgfLvff5j",
+  "about.protected.js?v=4": "sha384-s6gxbTBTyEDcIwYEbC/yoBdBWB1HqXpcXaJ87Bj5eqjJ9xr1VohW+6Thhlc9Kxot",
+  "report.protected.js?v=2": "sha384-btqT05bc59mcL6KYXcI+rfYJV30EG2OikaJn3cJ0vSPJzuNX+gr985J6LqOYV+Sv",
   "wordmark.protected.js": "sha384-SH7b14M1xB5D32Zyd/8Za8HIrOSQcmDPQvmIx7CA2arMaPOOrPt5pmyc02my/y88",
-  "app-update.protected.js?v=38": "sha384-eYr7c9IK32ZR8N/VmDVhpxy3U93OKdBfjz1+lFFBx8hkd1AWLouS91xJ/EH8dGsZ",
-  "update-page.protected.js": "sha384-BYyeBTayNIqBnkOCpu+phADpfD24Odiba8lCYgu5/lPhA+5rLILDZ08fmOhbRm+0",
-  "remote-engine-ui.protected.js?v=46": "sha384-MNBQgnojWNBt4imMVvhuEimNb3dsw2630KH3jt7HF1LyuZMGuNcciEHGLH7pDc6g",
-  "opening-app.protected.js": "sha384-mzY7wqe5G2whXfklvEJ+Z/7kTQeLPoeqwQEjv929dj/9kI1nAlfXLOuLdve7Q81T",
-  "engine.worker.protected.js?v=45": "sha384-ao6uXsizAg95SVFZ+FRtMoFfk4tk9iDNiWJ9v3N6UsEfLmjcyYi0ExzTNbeZmGd3"
+  "app-update.protected.js?v=38": "sha384-oQ5scIBOdp10NzrTNdMo0A6ihNd4B4yD9q4/42G4/MzEOOnETtuQfPIidQFM+swq",
+  "update-page.protected.js": "sha384-I0WY07nn3sB3qobJ0zy/4IvxOsgbxqBb6P8KP7nQEUu2yBGnmOEUsnLpzYcLoSql",
+  "remote-engine-ui.protected.js?v=46": "sha384-RKwfvLa2l7iqQm8F9kOFuFJOCvDQqIhz+tk2rWSNsoZ9TfCT6/BqiWAb7FN2KUsb",
+  "opening-app.protected.js": "sha384-ze+RWT2NmKIhlPntuTY2/hAH6r8yH6toirGH8dNDt0WjCM5OqIR+r9EO3HLS7Aad",
+  "engine.worker.protected.js?v=46": "sha384-iNPpqm/cAuiKgOosOfZyeU9D/nX4MmNiw77boJleyqDvqTxXa0+x+RDZ8M5kCYJ7"
 };
 // END GENERATED ASSET INTEGRITY
 const ENGINE = "engine/rapfi-250615/";

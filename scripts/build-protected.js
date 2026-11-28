@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { protectionSeed } from "./protection-seed.js";
+import { protectionDecoys } from "./protection-decoys.js";
 
 // Keep bundles next to the source: URL resolution and storage scope stay stable.
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -26,8 +27,24 @@ const protectedWorker = {
       const source = await readFile(filename, "utf8");
       const original = "./engine.worker.js?v=42";
       if (source.split(original).length !== 2) throw new Error("Engine worker URL changed; update the protected build.");
-      return { contents: source.replace(original, "./engine.worker.protected.js?v=45"),
+      return { contents: source.replace(original, "./engine.worker.protected.js?v=46"),
         loader: "js", resolveDir: path.dirname(filename) };
+    });
+  }
+};
+// Give critical modules independent string tables before bundling. These are
+// nested inside the two existing bundle layers; source development skips them.
+const protectedModules = {
+  name: "protected-module-strings",
+  setup(api) {
+    api.onLoad({ filter: /(?:^|[/\\])(?:opening-session|opening-flow|remote-engine|game-rules)\.js$/ }, async ({ path: filename }) => {
+      const source = await readFile(filename, "utf8");
+      const contents = JavaScriptObfuscator.obfuscate(source, {
+        compact: true, stringArray: true, stringArrayEncoding: ["base64"], stringArrayThreshold: 0.85,
+        controlFlowFlattening: false, selfDefending: false, debugProtection: false, renameGlobals: false,
+        seed: protectionSeed("module:" + path.basename(filename), source), target: "browser"
+      }).getObfuscatedCode();
+      return { contents, loader: "js", resolveDir: path.dirname(filename) };
     });
   }
 };
@@ -38,16 +55,17 @@ for (const entry of entries) {
     absWorkingDir: root, entryPoints: [entry.input], bundle: true, write: false,
     format: entry.format, platform: "browser", target: ["es2020"], charset: "utf8",
     minify: true, sourcemap: false, legalComments: "none",
-    plugins: [protectedWorker], logLevel: "silent"
+    plugins: [protectedWorker, protectedModules], logLevel: "silent"
   });
   const bundled = result.outputFiles[0].text;
+  const layered = entry.antiDebug ? bundled + protectionDecoys(entry.output, bundled) : bundled;
   // A second independent string table makes a one-pass decoder incomplete.
   // The inner pass deliberately avoids self-defence so the outer pass can
   // transform it; all material remains recoverable on a controlled client.
-  const intermediate = entry.antiDebug ? JavaScriptObfuscator.obfuscate(bundled, {
+  const intermediate = entry.antiDebug ? JavaScriptObfuscator.obfuscate(layered, {
     compact: true, stringArray: true, stringArrayEncoding: ["base64"], stringArrayThreshold: 1,
     controlFlowFlattening: false, selfDefending: false, debugProtection: false,
-    renameGlobals: false, seed: protectionSeed("inner:" + entry.output, bundled), target: "browser"
+    renameGlobals: false, seed: protectionSeed("inner:" + entry.output, layered), target: "browser"
   }).getObfuscatedCode() : bundled;
   const output = JavaScriptObfuscator.obfuscate(intermediate, {
     compact: true, controlFlowFlattening: true, controlFlowFlatteningThreshold: 0.15,
@@ -86,7 +104,7 @@ const cachedScripts = [
   ["update-page.protected.js", "update-page.protected.js"],
   ["remote-engine-ui.protected.js?v=46", "remote-engine-ui.protected.js"],
   ["opening-app.protected.js", "opening-app.protected.js"],
-  ["engine.worker.protected.js?v=45", "engine.worker.protected.js"]
+  ["engine.worker.protected.js?v=46", "engine.worker.protected.js"]
 ];
 const integrity = Object.fromEntries(cachedScripts.map(([url, name]) => {
   const output = protectedOutputs.get(name);

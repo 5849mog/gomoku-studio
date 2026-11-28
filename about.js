@@ -197,4 +197,4 @@ cinematicScroll.addEventListener("change", updateProgress);
 motionPreference.addEventListener("change", updateProgress);
 updateProgress();
 
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(() => {});
+if (!globalThis.__GOMOKU_SOURCE_DEV__ && "serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(() => {});

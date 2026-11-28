@@ -26,7 +26,7 @@ export function updateControlMarkup() {
 }
 
 // Automatic reload is opt-in and gated by the caller protecting live work.
-export function setupAppUpdates({ container = document, serviceWorker = navigator.serviceWorker,
+export function setupAppUpdates({ container = document, serviceWorker = globalThis.__GOMOKU_SOURCE_DEV__ ? undefined : navigator.serviceWorker,
   reload = () => location.reload(), returnWhenCurrent = false, autoApply = null } = {}) {
   const labels = [...container.querySelectorAll("[data-app-version]")], buttons = [...container.querySelectorAll("[data-app-update]")];
   let registration, busy = false, ready = false, current = "", checked = false, retryTimer = null, retryCount = 0;
@@ -38,7 +38,10 @@ export function setupAppUpdates({ container = document, serviceWorker = navigato
     }
   }
   function askStatus() { serviceWorker.controller?.postMessage({ type: "offline-status" }); }
-  if (!serviceWorker) { render(`版本 ${APP_VERSION} · 此浏览器不支持离线更新`); return; }
+  if (!serviceWorker) {
+    render(globalThis.__GOMOKU_SOURCE_DEV__ ? `版本 ${APP_VERSION} · 源码开发模式` : `版本 ${APP_VERSION} · 此浏览器不支持离线更新`);
+    return;
+  }
   function stopRetry() {
     if (retryTimer !== null) clearTimeout(retryTimer);
     retryTimer = null;
